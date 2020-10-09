@@ -6,9 +6,11 @@ namespace ProfileBook.Models
 {
     public class User
     {
-        public string NickName;
-        public string Name;
-        public string Image;
-        public DateTime Date;
+        public int Id { get; set; }
+        public string NickName { get; set; }
+        public string Name { get; set; }
+        public string Image { get; set; }
+        public DateTime Date { get; set; }
+        public string Password { get; set; }
     }
 }
