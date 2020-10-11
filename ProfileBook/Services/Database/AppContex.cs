@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ProfileBook.Services.Database
+namespace ProfileBook.Services.DataBase
 {
-    public class AppContex: DbContext
+    public class AppContex : DbContext
     {
         private string _databasePath;
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ProfileBook.Services.Database
+namespace ProfileBook.Services.DataBase
 {
     public interface IPath
     {
