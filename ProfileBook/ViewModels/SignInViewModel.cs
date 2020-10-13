@@ -1,6 +1,7 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
+using Prism.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,33 +12,15 @@ namespace ProfileBook.ViewModels
 {
     public class SignInViewModel : BindableBase
     {
-        private string _title, _loginEntry, _passwordEntry;
+        private string _title;
         private readonly INavigationService _navigationService;
-        public SignInViewModel(INavigationService navigationService)
+        private readonly IPageDialogService _dialogService;
+        public SignInViewModel(INavigationService navigationService, IPageDialogService dialogService)
         {
             Title = "SignIn";
             _navigationService = navigationService;
+            _dialogService = dialogService;
             IsEnabledCommand = new DelegateCommand(Execute);
-        }
-        public string LoginEntry 
-        {
-            get { return _loginEntry; }
-            set
-            {
-                if(PasswordEntry!=null&& LoginEntry!=null)
-                    IsEnabledCommand.RaiseCanExecuteChanged();
-                SetProperty(ref _loginEntry, value);
-            }
-        }
-        public string PasswordEntry
-        {
-            get { return _passwordEntry; }
-            set
-            {
-                if (PasswordEntry != null && LoginEntry != null)
-                    IsEnabledCommand.RaiseCanExecuteChanged();
-                SetProperty(ref _passwordEntry, value);
-            }
         }
         public string Title
         {

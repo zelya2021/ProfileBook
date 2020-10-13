@@ -1,6 +1,5 @@
 ﻿using Prism.Navigation;
 using ProfileBook.Services;
-using ProfileBook.Services.Database;
 using ProfileBook.Services.DataBase;
 using ProfileBook.ViewModels;
 using System;
@@ -15,22 +14,21 @@ namespace ProfileBook.Views
         public SignIn()
         {
             InitializeComponent();
-            dbPath = DependencyService.Get<IPath>().GetDatabasePath(Initialization.DBFILENAME);
-            //SignInBtn.IsEnabled = false;
+            SignInBtn.IsEnabled = false;
         }
 
         private void loginEntry_Completed(object sender, System.EventArgs e)
         {
-            //nickName = ((Entry)sender).Text;
-            //if (String.IsNullOrEmpty(password)|| String.IsNullOrEmpty(nickName)) SignInBtn.IsEnabled = false;
-            //else SignInBtn.IsEnabled = true; 
+            nickName = ((Entry)sender).Text;
+            if (String.IsNullOrEmpty(password) || String.IsNullOrEmpty(nickName)) SignInBtn.IsEnabled = false;
+            else SignInBtn.IsEnabled = true;
         }
 
         private void passwordEntry_Completed(object sender, System.EventArgs e)
         {
-            //password = ((Entry)sender).Text;
-            //if (String.IsNullOrEmpty(nickName)|| String.IsNullOrEmpty(password)) SignInBtn.IsEnabled = false;
-            //else SignInBtn.IsEnabled = true;
+            password = ((Entry)sender).Text;
+            if (String.IsNullOrEmpty(nickName) || String.IsNullOrEmpty(password)) SignInBtn.IsEnabled = false;
+            else SignInBtn.IsEnabled = true;
         }
 
         private void Button_Clicked(object sender, System.EventArgs e)

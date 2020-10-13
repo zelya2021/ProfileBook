@@ -8,11 +8,11 @@
 
     <StackLayout>
         <StackLayout Orientation="Vertical" HorizontalOptions="Center" Margin="0, 110, 0, 120" WidthRequest="250">
-            <Entry x:Name="loginEntry" Placeholder="Login" Text="{Binding LoginEntry}"/>
-            <Entry x:Name="passwordEntry"  Placeholder = "Password" IsPassword ="True" Text="{Binding PasswordEntry}"/>
-            <Entry x:Name="confirmPassword"  Placeholder = "Confirm Password" IsPassword ="True" Text="{Binding ConfirmPasswordEntry}"/>
+            <Entry x:Name="loginEntry" Placeholder="Login" Text="{Binding LoginEntry}" Completed="loginEntry_Completed"/>
+            <Entry x:Name="passwordEntry"  Placeholder = "Password" IsPassword ="True" Text="{Binding PasswordEntry}" Completed="passwordEntry_Completed"/>
+            <Entry x:Name="confirmPassword"  Placeholder = "Confirm Password" IsPassword ="True" Text="{Binding ConfirmPasswordEntry}" Completed="confirmPassword_Completed"/>
         </StackLayout>
-        <Button Text = "SIGN UP" FontSize="Large" BorderWidth="1" BackgroundColor="#e2831d" Command="{Binding AddUserCommand}"
+        <Button x:Name="SignUnBtn" Text = "SIGN UP" FontSize="Large" BorderWidth="1" BackgroundColor="#e2831d" Command="{Binding SignUpCommand}"
                  HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Margin="0, 40, 0, 0" WidthRequest="250"/>
     </StackLayout>
     

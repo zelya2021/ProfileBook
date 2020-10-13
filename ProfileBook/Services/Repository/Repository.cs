@@ -12,6 +12,7 @@ namespace ProfileBook.Services.Repository
 {
     public class Repository : IRepository
     {
+        public const string DBFILENAME = "users_app.db";
         private readonly AppContex appContext;
         public Repository(string dbPath)
         {
