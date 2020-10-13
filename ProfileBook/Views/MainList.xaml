@@ -5,6 +5,4 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="ProfileBook.Views.MainList"
              Title="{Binding Title}">
-
-    <Button Command="{Binding NavigateCommand}" Text="MainList"/>
 </ContentPage>

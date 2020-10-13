@@ -4,40 +4,79 @@ using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace ProfileBook.ViewModels
 {
     public class SignInViewModel : BindableBase
     {
-        private string _title;
+        private string _title, _loginEntry, _passwordEntry;
+        private readonly INavigationService _navigationService;
+        public SignInViewModel(INavigationService navigationService)
+        {
+            Title = "SignIn";
+            _navigationService = navigationService;
+            IsEnabledCommand = new DelegateCommand(Execute);
+        }
+        public string LoginEntry 
+        {
+            get { return _loginEntry; }
+            set
+            {
+                if(PasswordEntry!=null&& LoginEntry!=null)
+                    IsEnabledCommand.RaiseCanExecuteChanged();
+                SetProperty(ref _loginEntry, value);
+            }
+        }
+        public string PasswordEntry
+        {
+            get { return _passwordEntry; }
+            set
+            {
+                if (PasswordEntry != null && LoginEntry != null)
+                    IsEnabledCommand.RaiseCanExecuteChanged();
+                SetProperty(ref _passwordEntry, value);
+            }
+        }
         public string Title
         {
             get { return _title; }
             set { SetProperty(ref _title, value); }
         }
-
-        private DelegateCommand _navigateToMainList, _navigateToSignUp;
-        private readonly INavigationService _navigationService;
-
-        public DelegateCommand NavigateToMainList =>
-            _navigateToMainList ?? (_navigateToMainList = new DelegateCommand(ExecuteNavigateToMainList));
-        public  DelegateCommand NavigateToSignUp =>
-               _navigateToSignUp ?? (_navigateToSignUp = new DelegateCommand(ExecuteNavigateToSignUp));
-
-
-        public SignInViewModel(INavigationService navigationService)
+        public DelegateCommand IsEnabledCommand { get; set; }
+        //public ICommand NavigateTomainListCommand
+        //{
+        //    get
+        //    {
+        //        return new Command(async () =>
+        //        {
+        //            await _navigationService.NavigateAsync("MainList");
+        //        });
+        //    }
+        //}
+        public ICommand NavigateToSignUpCommand
         {
-            Title = "SignIn";
-            _navigationService = navigationService;
+            get
+            {
+                return new Command(async () =>
+                {
+                    await _navigationService.NavigateAsync("SignUp");
+                });
+            }
         }
-
-        async void ExecuteNavigateToMainList()
+        private async void Execute()
         {
             await _navigationService.NavigateAsync("MainList");
         }
-        async void ExecuteNavigateToSignUp()
-        {
-            await _navigationService.NavigateAsync("SignUp");
-        }
+        //private bool CanExecute()
+        //{
+        //    if (LoginEntry != null && PasswordEntry != null)
+        //    {
+        //        IsEnabledCommand.RaiseCanExecuteChanged();
+        //        return true;
+        //    }
+        //    return false;
+        //}
     }
 }

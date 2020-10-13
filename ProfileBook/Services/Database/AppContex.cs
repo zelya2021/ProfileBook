@@ -11,10 +11,10 @@ namespace ProfileBook.Services.DataBase
         private string _databasePath;
 
         public DbSet<User> Users { get; set; }
-
         public AppContex(string databasePath)
         {
             _databasePath = databasePath;
+            //Database.EnsureCreated();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
