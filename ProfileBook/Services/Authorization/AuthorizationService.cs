@@ -16,7 +16,7 @@ namespace ProfileBook.Services.Authorization
         }
         public bool CurrenrUserId(string login, string password)
         {
-            var user = App.Database.GetItems().FirstOrDefault(u => u.NickName == login && u.Password == password);
+            var user = App.DbUsers.GetItems().FirstOrDefault(u => u.NickName == login && u.Password == password);
             if (user == null) return false;
             else
             {

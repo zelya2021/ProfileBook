@@ -1,11 +1,7 @@
-﻿using Prism.Commands;
-using Prism.Mvvm;
+﻿using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
 using ProfileBook.Services.Authorization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -17,13 +13,13 @@ namespace ProfileBook.ViewModels
         private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
         private readonly IAuthorizationService _authorizationService;
-        public SignInViewModel(INavigationService navigationService, IPageDialogService dialogService, IAuthorizationService authorizationService)
+        public SignInViewModel(INavigationService navigationService, IPageDialogService dialogService, 
+            IAuthorizationService authorizationService)
         {
             Title = "SignIn";
             _navigationService = navigationService;
             _dialogService = dialogService;
             _authorizationService = authorizationService;
-            //IsEnabledCommand = new DelegateCommand(Execute);
         }
         public string Title
         {
@@ -40,23 +36,23 @@ namespace ProfileBook.ViewModels
             get { return _passwordEntry; }
             set { SetProperty(ref _passwordEntry, value); }
         }
-        //public ICommand NavigateTomainListCommand
-        //{
-        //    get
-        //    {
-        //        return new Command(async () =>
-        //        {
-        //            if (_authorizationService.CurrenrUserId(LoginEntry, PasswordEntry))
-        //                await _navigationService.NavigateAsync("MainList");
-        //            else
-        //            {
-        //                await _dialogService.DisplayAlertAsync("Ошибка", "Пользователь не найден", "OK");
-        //                //LoginEntry = string.Empty;
-        //                //PasswordEntry = string.Empty;
-        //            }
-        //        });
-        //    }
-        //}
+        public ICommand NavigateTomainListCommand
+        {
+            get
+            {
+                return new Command(async () =>
+                {
+                    if (_authorizationService.CurrenrUserId(LoginEntry, PasswordEntry))
+                        await _navigationService.NavigateAsync("MainList");
+                    else
+                    {
+                        await _dialogService.DisplayAlertAsync("Ошибка", "Пользователь не найден", "OK");
+                        //LoginEntry = string.Empty;
+                        //PasswordEntry = string.Empty;
+                    }
+                });
+            }
+        }
         public ICommand NavigateToSignUpCommand
         {
             get

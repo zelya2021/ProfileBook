@@ -5,4 +5,27 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="ProfileBook.Views.MainList"
              Title="{Binding Title}">
+    
+    <ScrollView>
+        <StackLayout>
+            <ListView
+              HasUnevenRows="True"
+              ItemsSource="{Binding ProfileData}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <StackLayout>
+                                    <Image Source="{Binding }"/>
+                                    <Label Text="{Binding Company}" />
+                                    <Label Text="{Binding Price}" />
+                                </StackLayout>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ScrollView>
+  
 </ContentPage>

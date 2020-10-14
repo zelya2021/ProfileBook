@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProfileBook.Services
 {
-    public interface IRepository
+    public interface IRepositoryForUser
     {
         IEnumerable<UserModel> GetItems();
         UserModel GetItem(int id);

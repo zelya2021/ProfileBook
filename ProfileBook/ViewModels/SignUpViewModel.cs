@@ -55,7 +55,7 @@ namespace ProfileBook.ViewModels
                 }
                 else
                 {
-                    App.Database.SaveItem(new UserModel { NickName=LoginEntry, Password=PasswordEntry});
+                    App.DbUsers.SaveItem(new UserModel { NickName=LoginEntry, Password=PasswordEntry});
                    // List<UserModel> users = App.Database.GetItems().ToList();
                     await _navigationService.NavigateAsync("SignIn");
                     break;

@@ -4,10 +4,10 @@ using SQLite;
 
 namespace ProfileBook.Services.Repository
 {
-    public class Repository : IRepository
+    public class RepositoryForUser : IRepositoryForUser
     {
         SQLiteConnection database;
-        public Repository(string databasePath)
+        public RepositoryForUser(string databasePath)
         {
             database = new SQLiteConnection(databasePath);
             database.CreateTable<UserModel>();

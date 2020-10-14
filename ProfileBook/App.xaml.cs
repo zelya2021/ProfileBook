@@ -5,41 +5,57 @@ using ProfileBook.Views;
 using Xamarin.Essentials.Interfaces;
 using Xamarin.Essentials.Implementation;
 using Xamarin.Forms;
-using System.Linq;
-using ProfileBook.Models;
 using System;
 using ProfileBook.Services.Repository;
 using System.IO;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using SQLite;
 using ProfileBook.Services.Authorization;
 using ProfileBook.Services;
 using ProfileBook.Services.Settings;
+using ProfileBook.Models;
 
 namespace ProfileBook
 {
     public partial class App
     {
         public const string DATABASE_NAME = "users.db";
-        public static Repository database;
+        public const string DATABASE_NAME1 = "profile.db";
+        public static RepositoryForUser repUsers;
+        public static RepositoryForProfile repProfile;
         public static SQLiteConnection sql;
-        public static Repository Database
+        public static RepositoryForUser DbUsers
         {
             get
             {
-                if (database == null)
+                if (repUsers == null)
                 {
-                    database = new Repository(
+                    repUsers = new RepositoryForUser(
                         Path.Combine(
                             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), DATABASE_NAME));
-                    //database.SaveItem(new UserModel
-                    //{
-                    //    NickName = "masha002",
-                    //    Password = "12345678"
-                    //});
+
                 }
-                return database;
+                return repUsers;
+            }
+        }
+        public static RepositoryForProfile DbProfile
+        {
+            get
+            {
+                if (repProfile == null)
+                {
+                    repProfile = new RepositoryForProfile(
+                        Path.Combine(
+                            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), DATABASE_NAME1));
+
+                    repProfile.SaveItem(new ProfileModel
+                    {
+                        Name = "name1",
+                        Date = new DateTime(2010, 10, 14),
+                        Description = "description1",
+                        Image = "pic_profile.png"
+                    });
+                }
+                return repProfile;
             }
         }
         public App(IPlatformInitializer initializer)
@@ -59,7 +75,8 @@ namespace ProfileBook
 
             containerRegistry.RegisterInstance<ISettingsManager>(Container.Resolve<SettingsManager>());
             containerRegistry.RegisterInstance<IAuthorizationService>(Container.Resolve<AuthorizationService>());
-            //containerRegistry.RegisterInstance<IRepository>(Container.Resolve<Repository>());
+            containerRegistry.RegisterInstance<IRepositoryForProfile>(Container.Resolve<RepositoryForProfile>());
+            containerRegistry.RegisterInstance<IRepositoryForUser>(Container.Resolve<RepositoryForUser>());
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<SignIn, SignInViewModel>();
