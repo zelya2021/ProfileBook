@@ -1,89 +1,39 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Collections.Generic;
 using ProfileBook.Models;
-using ProfileBook.Services.DataBase;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SQLite;
 
 namespace ProfileBook.Services.Repository
 {
     public class Repository : IRepository
     {
-        public const string DBFILENAME = "users_app.db";
-        private readonly AppContex appContext;
-        public Repository(string dbPath)
+        SQLiteConnection database;
+        public Repository(string databasePath)
         {
-            appContext = new AppContex(dbPath);
+            database = new SQLiteConnection(databasePath);
+            database.CreateTable<UserModel>();
         }
-        public async Task<bool> AddUser(User user)
+        public IEnumerable<UserModel> GetItems()
         {
-            try
-            {
-                var tracking = await appContext.Users.AddAsync(user);
-                await appContext.SaveChangesAsync();
-                return tracking.State == EntityState.Added;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            return database.Table<UserModel>().ToList();
         }
-
-        public AppContex GetContext()
+        public UserModel GetItem(int id)
         {
-            return new AppContex(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "userDB"));
+            return database.Get<UserModel>(id);
         }
-
-        public async Task<User> GetUserById(int id)
+        public int DeleteItem(int id)
         {
-            try
-            {
-                return await appContext.Users.FindAsync(id);
-            }
-            catch (Exception)
-            {
-                return null;
-            }
+            return database.Delete<UserModel>(id);
         }
-
-        public async Task<IEnumerable<User>> GetUsers()
+        public int SaveItem(UserModel item)
         {
-            try
+            if (item.Id != 0)
             {
-                return await appContext.Users.ToListAsync();
+                database.Update(item);
+                return item.Id;
             }
-            catch (Exception)
+            else
             {
-                return null;
-            }
-        }
-
-        public async Task<IEnumerable<User>> QueryUser(Func<User, bool> predicate)
-        {
-            try
-            {
-                return appContext.Users.Where(predicate).ToList();
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-
-        public async Task<bool> UpdateUser(User user)
-        {
-            try
-            {
-                var tracking = appContext.Users.Update(user);
-                await appContext.SaveChangesAsync();
-                return tracking.State == EntityState.Modified;
-            }
-            catch (Exception)
-            {
-                return false;
+                return database.Insert(item);
             }
         }
     }

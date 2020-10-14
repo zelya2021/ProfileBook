@@ -1,5 +1,4 @@
 ﻿using ProfileBook.Models;
-using ProfileBook.Services.DataBase;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,12 +8,10 @@ namespace ProfileBook.Services
 {
     public interface IRepository
     {
-        Task<IEnumerable<User>> GetUsers();
-        Task<User> GetUserById(int id);
-        Task<bool> AddUser(User user);
-        Task<bool> UpdateUser(User user);
-        Task<IEnumerable<User>> QueryUser(Func<User,bool> predicate);
-        AppContex GetContext();
+        IEnumerable<UserModel> GetItems();
+        UserModel GetItem(int id);
+        int DeleteItem(int id);
+        int SaveItem(UserModel item);
 
     }
 }

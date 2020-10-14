@@ -5,33 +5,47 @@ using ProfileBook.Views;
 using Xamarin.Essentials.Interfaces;
 using Xamarin.Essentials.Implementation;
 using Xamarin.Forms;
-using ProfileBook.Services.DataBase;
 using System.Linq;
 using ProfileBook.Models;
 using System;
 using ProfileBook.Services.Repository;
+using System.IO;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using SQLite;
+using ProfileBook.Services.Authorization;
+using ProfileBook.Services;
+using ProfileBook.Services.Settings;
 
 namespace ProfileBook
 {
     public partial class App
     {
+        public const string DATABASE_NAME = "users.db";
+        public static Repository database;
+        public static SQLiteConnection sql;
+        public static Repository Database
+        {
+            get
+            {
+                if (database == null)
+                {
+                    database = new Repository(
+                        Path.Combine(
+                            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), DATABASE_NAME));
+                    //database.SaveItem(new UserModel
+                    //{
+                    //    NickName = "masha002",
+                    //    Password = "12345678"
+                    //});
+                }
+                return database;
+            }
+        }
         public App(IPlatformInitializer initializer)
             : base(initializer)
         {
-            string dbPath = DependencyService.Get<IPath>().GetDatabasePath(Repository.DBFILENAME);
-            using (var db = new AppContex(dbPath))
-            {
-                // Создаем бд, если она отсутствует
-                db.Database.EnsureCreated();
-                if (db.Users.Count() == 0)
-                {
-                    db.Users.Add(new User { Name = "Tom", NickName = "tommy002", Image = "pic_profile.png", Date = new DateTime(2010, 1, 7), Password = "123456", Description = "some1" });
-                    db.Users.Add(new User { Name = "Alice", NickName = "alice_bee", Image = "pic_profile.png", Date = new DateTime(2020, 5, 4), Password = "789456", Description = "some2" });
-                    db.SaveChanges();
-                }
-            }
         }
-
         protected override async void OnInitialized()
         {
             InitializeComponent();
@@ -43,10 +57,15 @@ namespace ProfileBook
         {
             containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
 
+            containerRegistry.RegisterInstance<ISettingsManager>(Container.Resolve<SettingsManager>());
+            containerRegistry.RegisterInstance<IAuthorizationService>(Container.Resolve<AuthorizationService>());
+            //containerRegistry.RegisterInstance<IRepository>(Container.Resolve<Repository>());
+
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<SignIn, SignInViewModel>();
             containerRegistry.RegisterForNavigation<MainList, MainListViewModel>();
             containerRegistry.RegisterForNavigation<SignUp, SignUpViewModel>();
+          
         }
     }
 }

@@ -5,7 +5,7 @@ namespace ProfileBook.Views
 {
     public partial class SignUp : ContentPage
     {
-        string dbPath, nickName, password, _confirmPassword;
+        string nickName, password, _confirmPassword;
         public SignUp()
         {
             InitializeComponent();

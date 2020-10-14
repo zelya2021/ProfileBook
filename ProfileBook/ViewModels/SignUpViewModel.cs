@@ -2,7 +2,6 @@
 using Prism.Mvvm;
 using Prism.Navigation;
 using ProfileBook.Models;
-using ProfileBook.Services.DataBase;
 using ProfileBook.Services.Repository;
 using System;
 using System.Collections.Generic;
@@ -14,8 +13,7 @@ namespace ProfileBook.ViewModels
 {
     public class SignUpViewModel : BindableBase
     {
-        private string _title, dbPath;
-        Repository repository;
+        private string _title;
         private readonly INavigationService _navigationService;
         private readonly Prism.Services.IPageDialogService _dialogService;
         public SignUpViewModel(INavigationService navigationService, Prism.Services.IPageDialogService dialogService)
@@ -23,8 +21,6 @@ namespace ProfileBook.ViewModels
             Title = "SignUp";
             _navigationService = navigationService;
             _dialogService = dialogService;
-            dbPath = DependencyService.Get<IPath>().GetDatabasePath(Repository.DBFILENAME);
-            repository = new Repository(dbPath);
         }
         public string Title
         {
@@ -44,6 +40,7 @@ namespace ProfileBook.ViewModels
                 if (LoginEntry.Length < 4 || LoginEntry.Length > 16)
                 {
                     await _dialogService.DisplayAlertAsync("Внимание", "Логин должен быть не менее 4 и не более 16 символов", "OK");
+                    LoginEntry = string.Empty;
                     break;
                 }
                 else if (PasswordEntry.Length < 8 || PasswordEntry.Length > 16)
@@ -58,8 +55,9 @@ namespace ProfileBook.ViewModels
                 }
                 else
                 {
-                   await repository.AddUser(new User { NickName = LoginEntry, Password = PasswordEntry });
-                   await _navigationService.NavigateAsync("SignIn");
+                    App.Database.SaveItem(new UserModel { NickName=LoginEntry, Password=PasswordEntry});
+                   // List<UserModel> users = App.Database.GetItems().ToList();
+                    await _navigationService.NavigateAsync("SignIn");
                     break;
                 }
             }

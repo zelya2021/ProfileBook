@@ -1,16 +1,11 @@
-﻿using Prism.Navigation;
-using ProfileBook.Services;
-using ProfileBook.Services.DataBase;
-using ProfileBook.ViewModels;
-using System;
-using System.Linq;
+﻿using System;
 using Xamarin.Forms;
 
 namespace ProfileBook.Views
 {
     public partial class SignIn : ContentPage
     {
-        string dbPath, nickName, password;
+        string nickName, password;
         public SignIn()
         {
             InitializeComponent();
@@ -29,29 +24,6 @@ namespace ProfileBook.Views
             password = ((Entry)sender).Text;
             if (String.IsNullOrEmpty(nickName) || String.IsNullOrEmpty(password)) SignInBtn.IsEnabled = false;
             else SignInBtn.IsEnabled = true;
-        }
-
-        private void Button_Clicked(object sender, System.EventArgs e)
-        {
-            //if(nickName!=null&&password!=null)
-            //{
-            //    ((Button)sender).IsEnabled = true;
-            //    using (AppContex db = new AppContex(dbPath))
-            //    {
-            //        var tryUser = db.Users.FirstOrDefault(u => u.NickName == nickName && u.Password == password);
-            //        if (tryUser != null)
-            //        {
-            //            Navigation.PushAsync(new MainList());
-                       
-            //        }
-            //        else
-            //        {
-                        
-            //        }
-            //    }
-            //}
-           
-            // this.Navigation.PopAsync();
         }
     }
 }
