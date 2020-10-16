@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{0D9D7FC5-F56D-45A6-85EA-C765A1F4170F}</ProjectGuid>
+    <ProjectGuid>{E1BC2178-57C8-4F87-A43E-C77DFC019133}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ProfileBook.UWP</RootNamespace>

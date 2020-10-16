@@ -13,6 +13,8 @@ using ProfileBook.Services.Authorization;
 using ProfileBook.Services;
 using ProfileBook.Services.Settings;
 using ProfileBook.Models;
+using Plugin.Settings;
+using Plugin.Settings.Abstractions;
 
 namespace ProfileBook
 {
@@ -62,27 +64,34 @@ namespace ProfileBook
             : base(initializer)
         {
         }
+
         protected override async void OnInitialized()
         {
             InitializeComponent();
 
-            await NavigationService.NavigateAsync("NavigationPage/SignIn");
+            await NavigationService.NavigateAsync("NavigationPage/MainPage");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
 
+            //containerRegistry.RegisterForNavigation<NavigationPage>();
+
+
+            //packages
+            containerRegistry.RegisterInstance<ISettings>(CrossSettings.Current);
+
+            //servises
             containerRegistry.RegisterInstance<ISettingsManager>(Container.Resolve<SettingsManager>());
             containerRegistry.RegisterInstance<IAuthorizationService>(Container.Resolve<AuthorizationService>());
-            containerRegistry.RegisterInstance<IRepositoryForProfile>(Container.Resolve<RepositoryForProfile>());
-            containerRegistry.RegisterInstance<IRepositoryForUser>(Container.Resolve<RepositoryForUser>());
+            //containerRegistry.RegisterInstance<IRepositoryForProfile>(Container.Resolve<RepositoryForProfile>());
+            //containerRegistry.RegisterInstance<IRepositoryForUser>(Container.Resolve<RepositoryForUser>());
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<SignIn, SignInViewModel>();
             containerRegistry.RegisterForNavigation<MainList, MainListViewModel>();
             containerRegistry.RegisterForNavigation<SignUp, SignUpViewModel>();
-          
         }
     }
 }

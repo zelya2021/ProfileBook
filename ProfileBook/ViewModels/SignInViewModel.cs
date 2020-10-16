@@ -1,7 +1,10 @@
-﻿using Prism.Mvvm;
+﻿using Plugin.Settings;
+using Plugin.Settings.Abstractions;
+using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
 using ProfileBook.Services.Authorization;
+using ProfileBook.Services.Settings;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -12,7 +15,10 @@ namespace ProfileBook.ViewModels
         private string _title, _loginEntry, _passwordEntry;
         private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
+
         private readonly IAuthorizationService _authorizationService;
+        //public IAuthorizationService _authorizationService { get; set; }
+
         public SignInViewModel(INavigationService navigationService, IPageDialogService dialogService, 
             IAuthorizationService authorizationService)
         {
