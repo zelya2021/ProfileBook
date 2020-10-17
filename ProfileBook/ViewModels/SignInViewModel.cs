@@ -10,7 +10,7 @@ using Xamarin.Forms;
 
 namespace ProfileBook.ViewModels
 {
-    public class SignInViewModel : BindableBase
+    public class SignInViewModel : BindableBase, INavigationAware
     {
         private string _title, _loginEntry, _passwordEntry;
         private readonly INavigationService _navigationService;
@@ -66,6 +66,16 @@ namespace ProfileBook.ViewModels
                     await _navigationService.NavigateAsync("SignUp");
                 });
             }
+        }
+
+        public void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void OnNavigatedTo(INavigationParameters parameters)
+        {
+            LoginEntry = parameters.GetValue<string>("usersLogin");
         }
     }
 }

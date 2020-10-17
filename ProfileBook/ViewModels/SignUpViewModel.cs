@@ -61,8 +61,10 @@ namespace ProfileBook.ViewModels
                 {
                     _repositoryForUser.SaveItem(new UserModel { NickName = LoginEntry, Password = PasswordEntry });
                      List<UserModel> users = _repositoryForUser.GetItems().ToList();
-                    
-                    await _navigationService.NavigateAsync("SignIn");
+                    var param = new NavigationParameters();
+                    param.Add("usersLogin", LoginEntry);
+
+                    await _navigationService.NavigateAsync("SignIn",param);
                     break;
                 }
             }

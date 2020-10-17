@@ -20,6 +20,7 @@ namespace ProfileBook
 {
     public partial class App
     {
+
         public App(IPlatformInitializer initializer)
             : base(initializer)
         {
@@ -28,6 +29,10 @@ namespace ProfileBook
         protected override async void OnInitialized()
         {
             InitializeComponent();
+
+            //if (CrossSettings.Current.GetValueOrDefault("Id", -1) != -1) 
+            //    await NavigationService.NavigateAsync("NavigationPage/SignIn");
+            //else await NavigationService.NavigateAsync("NavigationPage/MainListView");
 
             await NavigationService.NavigateAsync("NavigationPage/SignIn");
         }
