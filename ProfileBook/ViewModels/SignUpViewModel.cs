@@ -76,6 +76,7 @@ namespace ProfileBook.ViewModels
                     param.Add("usersLogin", LoginEntry);
 
                     await _navigationService.NavigateAsync("SignIn",param);
+                    break;
                 }
             }
 

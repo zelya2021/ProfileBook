@@ -2,17 +2,11 @@ using Prism;
 using Prism.Ioc;
 using ProfileBook.ViewModels;
 using ProfileBook.Views;
-using Xamarin.Essentials.Interfaces;
-using Xamarin.Essentials.Implementation;
 using Xamarin.Forms;
-using System;
 using ProfileBook.Services.Repository;
-using System.IO;
-using SQLite;
 using ProfileBook.Services.Authorization;
 using ProfileBook.Services;
 using ProfileBook.Services.Settings;
-using ProfileBook.Models;
 using Plugin.Settings;
 using Plugin.Settings.Abstractions;
 using ProfileBook.Services.Authentication;
@@ -31,11 +25,11 @@ namespace ProfileBook
         {
             InitializeComponent();
 
-            //if (CrossSettings.Current.GetValueOrDefault("Id", -1) != -1) 
-            //    await NavigationService.NavigateAsync("NavigationPage/SignIn");
-            //else await NavigationService.NavigateAsync("NavigationPage/MainListView");
+            if (CrossSettings.Current.GetValueOrDefault("Id", -1) != -1)
+                await NavigationService.NavigateAsync("NavigationPage/SignIn");
+            else await NavigationService.NavigateAsync("NavigationPage/MainListView");
 
-            await NavigationService.NavigateAsync("NavigationPage/SignIn");
+            //await NavigationService.NavigateAsync("NavigationPage/MainListView");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
