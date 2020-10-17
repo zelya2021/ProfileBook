@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using ProfileBook.Models;
 using SQLite;
 
@@ -7,9 +9,10 @@ namespace ProfileBook.Services.Repository
     public class RepositoryForUser : IRepositoryForUser
     {
         SQLiteConnection database;
-        public RepositoryForUser(string databasePath)
+        public RepositoryForUser()
         {
-            database = new SQLiteConnection(databasePath);
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            database = new SQLiteConnection(Path.Combine(path, "users_db.db"));
             database.CreateTable<UserModel>();
         }
         public IEnumerable<UserModel> GetItems()

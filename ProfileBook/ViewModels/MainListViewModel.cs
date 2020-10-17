@@ -27,7 +27,7 @@ namespace ProfileBook.ViewModels
             Title = "MainList";
             _navigationService = navigationService;
             _repositoryForProfile = repositoryForProfile;
-            ProfileData = new ObservableCollection<ProfileModel>(_repositoryForProfile.GetItems());
+            //ProfileData = new ObservableCollection<ProfileModel>(_repositoryForProfile.GetItems());
         }
     }
 }

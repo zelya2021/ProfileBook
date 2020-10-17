@@ -1,20 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Plugin.Settings.Abstractions;
 
 namespace ProfileBook.Services.Settings
 {
     public class SettingsManager : ISettingsManager
     {
-        private readonly ISettingsManager _settingsManager;
-        public SettingsManager(ISettingsManager settingsManager)
+        private readonly ISettings _settings;
+        public SettingsManager(ISettings settings)
         {
-            _settingsManager = settingsManager;
+            _settings = settings;
         }
-        public int Id
+        public int Id 
         {
-            get => _settingsManager.Id;
-            set => _settingsManager.Id = value;
+            get => _settings.GetValueOrDefault(nameof(Id), -1);
+            set => _settings.AddOrUpdateValue(nameof(Id), value);
+        }
+        public void ClearData()
+        {
+            Id = -1;
         }
     }
 }

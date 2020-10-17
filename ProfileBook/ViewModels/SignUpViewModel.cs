@@ -2,6 +2,7 @@
 using Prism.Mvvm;
 using Prism.Navigation;
 using ProfileBook.Models;
+using ProfileBook.Services;
 using ProfileBook.Services.Repository;
 using System;
 using System.Collections.Generic;
@@ -16,11 +17,14 @@ namespace ProfileBook.ViewModels
         private string _title;
         private readonly INavigationService _navigationService;
         private readonly Prism.Services.IPageDialogService _dialogService;
-        public SignUpViewModel(INavigationService navigationService, Prism.Services.IPageDialogService dialogService)
+        private readonly IRepositoryForUser _repositoryForUser;
+        public SignUpViewModel(INavigationService navigationService, Prism.Services.IPageDialogService dialogService,
+            IRepositoryForUser repositoryForUser)
         {
             Title = "SignUp";
             _navigationService = navigationService;
             _dialogService = dialogService;
+            _repositoryForUser = repositoryForUser;
         }
         public string Title
         {
@@ -55,8 +59,9 @@ namespace ProfileBook.ViewModels
                 }
                 else
                 {
-                    App.DbUsers.SaveItem(new UserModel { NickName=LoginEntry, Password=PasswordEntry});
-                   // List<UserModel> users = App.Database.GetItems().ToList();
+                    _repositoryForUser.SaveItem(new UserModel { NickName = LoginEntry, Password = PasswordEntry });
+                     List<UserModel> users = _repositoryForUser.GetItems().ToList();
+                    
                     await _navigationService.NavigateAsync("SignIn");
                     break;
                 }

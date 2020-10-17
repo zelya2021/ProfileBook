@@ -14,18 +14,16 @@ namespace ProfileBook.ViewModels
     {
         private string _title, _loginEntry, _passwordEntry;
         private readonly INavigationService _navigationService;
-        private readonly IPageDialogService _dialogService;
-
         private readonly IAuthorizationService _authorizationService;
-        //public IAuthorizationService _authorizationService { get; set; }
+        private readonly IPageDialogService _dialogService;
 
         public SignInViewModel(INavigationService navigationService, IPageDialogService dialogService, 
             IAuthorizationService authorizationService)
         {
             Title = "SignIn";
             _navigationService = navigationService;
-            _dialogService = dialogService;
             _authorizationService = authorizationService;
+            _dialogService = dialogService;
         }
         public string Title
         {
@@ -53,8 +51,8 @@ namespace ProfileBook.ViewModels
                     else
                     {
                         await _dialogService.DisplayAlertAsync("Ошибка", "Пользователь не найден", "OK");
-                        //LoginEntry = string.Empty;
-                        //PasswordEntry = string.Empty;
+                        LoginEntry = string.Empty;
+                        PasswordEntry = string.Empty;
                     }
                 });
             }

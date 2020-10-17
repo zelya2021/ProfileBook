@@ -2,16 +2,19 @@
 using SQLite;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.IO;
 
 namespace ProfileBook.Services.Repository
 {
     public class RepositoryForProfile : IRepositoryForProfile
     {
         SQLiteConnection database;
-        public RepositoryForProfile(string databasePath)
+        public RepositoryForProfile()
         {
-            database = new SQLiteConnection(databasePath);
+            //database = new SQLiteConnection(databasePath);
+            //database.CreateTable<ProfileModel>();
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            database = new SQLiteConnection(Path.Combine(path, "users_db.db"));
             database.CreateTable<ProfileModel>();
         }
         public IEnumerable<ProfileModel> GetItems()

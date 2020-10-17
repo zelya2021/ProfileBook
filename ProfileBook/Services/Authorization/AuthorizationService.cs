@@ -10,13 +10,16 @@ namespace ProfileBook.Services.Authorization
    public class AuthorizationService : IAuthorizationService
     {
         private readonly ISettingsManager _settingsManager;
-        AuthorizationService(ISettingsManager settingsManager)
+        private readonly IRepositoryForUser _repositoryForUser;
+
+        AuthorizationService(ISettingsManager settingsManager, IRepositoryForUser repositoryForUser)
         {
             _settingsManager = settingsManager;
+            _repositoryForUser = repositoryForUser;
         }
         public bool CurrenrUserId(string login, string password)
         {
-            var user = App.DbUsers.GetItems().FirstOrDefault(u => u.NickName == login && u.Password == password);
+            var user = _repositoryForUser.GetItems().FirstOrDefault(u => u.NickName == login && u.Password == password);
             if (user == null) return false;
             else
             {
