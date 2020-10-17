@@ -15,6 +15,7 @@ using ProfileBook.Services.Settings;
 using ProfileBook.Models;
 using Plugin.Settings;
 using Plugin.Settings.Abstractions;
+using ProfileBook.Services.Authentication;
 
 namespace ProfileBook
 {
@@ -47,7 +48,8 @@ namespace ProfileBook
             containerRegistry.RegisterInstance<IRepositoryForUser>(Container.Resolve<RepositoryForUser>());
             containerRegistry.RegisterInstance<ISettingsManager>(Container.Resolve<SettingsManager>());
             containerRegistry.RegisterInstance<IAuthorizationService>(Container.Resolve<AuthorizationService>());
-           
+            containerRegistry.RegisterInstance<IAuthentication>(Container.Resolve<Authentication>());
+
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<SignIn, SignInViewModel>();
