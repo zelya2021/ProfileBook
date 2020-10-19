@@ -70,7 +70,7 @@ namespace ProfileBook.ViewModels
                 }
                 else
                 {
-                    _repositoryForUser.SaveItem(new UserModel { NickName = LoginEntry, Password = PasswordEntry });
+                    _repositoryForUser.SaveItem(new UserModel { Login = LoginEntry, Password = PasswordEntry });
                      List<UserModel> users = _repositoryForUser.GetItems().ToList();
                     var param = new NavigationParameters();
                     param.Add("usersLogin", LoginEntry);

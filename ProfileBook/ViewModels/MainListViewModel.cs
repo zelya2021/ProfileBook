@@ -12,7 +12,12 @@ namespace ProfileBook.ViewModels
     public class MainListViewModel : BindableBase
     {
         private string _title;
-        public ObservableCollection<ProfileModel> ProfileData { get; set; }
+        private ObservableCollection<ProfileModel> _profileData;
+        public ObservableCollection<ProfileModel> ProfileData
+        {
+            get { return _profileData; }
+            set { SetProperty(ref _profileData, value); }
+        }
         public string Title
         {
             get { return _title; }
@@ -47,7 +52,7 @@ namespace ProfileBook.ViewModels
                 return new Command(async () =>
                 {
                     _settingsManager.ClearData();
-                    await _navigationService.NavigateAsync("MainList");
+                    await _navigationService.NavigateAsync("SignIn");
                 });
             }
         }

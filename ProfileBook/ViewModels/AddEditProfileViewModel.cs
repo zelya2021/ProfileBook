@@ -1,4 +1,4 @@
-﻿using Prism.Commands;
+﻿
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
@@ -6,8 +6,7 @@ using ProfileBook.Models;
 using ProfileBook.Services.Repository;
 using ProfileBook.Services.Settings;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -52,10 +51,10 @@ namespace ProfileBook.ViewModels
         public string Image
         {
             get { return _image; }
-            set 
+            set
             {
-                if(_image==null)
-                SetProperty(ref _image, "ic_user.png");
+                if (_image == null)
+                    SetProperty(ref _image, "ic_user.png");
                 else SetProperty(ref _image, value);
             }
         }
@@ -65,7 +64,7 @@ namespace ProfileBook.ViewModels
             {
                 return new Command(async () =>
                 {
-                    if(String.IsNullOrEmpty(NickName)|| String.IsNullOrEmpty(Name)|| String.IsNullOrEmpty(Description))
+                    if (String.IsNullOrEmpty(NickName) || String.IsNullOrEmpty(Name))
                         await _dialogService.DisplayAlertAsync("Внимание", "Поля не должны быть пустыми!", "OK");
                     else
                     {
@@ -75,7 +74,7 @@ namespace ProfileBook.ViewModels
                             Description = Description,
                             Image = "ic_user.png",
                             Date = DateTime.Today,
-                            UserId= _settingsManager.Id
+                            UserId = _settingsManager.Id
                         });
                         await _navigationService.NavigateAsync("MainListView");
                     }

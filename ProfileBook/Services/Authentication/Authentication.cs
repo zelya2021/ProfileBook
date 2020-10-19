@@ -17,13 +17,13 @@ namespace ProfileBook.Services.Authentication
         }
         public bool UniqueLogin(string login)
         {
-            var user = _repositoryForUser.GetItems().FirstOrDefault(u => u.NickName == login);
+            var user = _repositoryForUser.GetItems().FirstOrDefault(u => u.Login == login);
             if (user == null) return true;
             else return false;
         }
         public bool IsUserSignIn(string login, string password)
         {
-            var user = _repositoryForUser.GetItems().FirstOrDefault(u => u.NickName == login && u.Password == password);
+            var user = _repositoryForUser.GetItems().FirstOrDefault(u => u.Login == login && u.Password == password);
             if (user == null) return false;
             else
             {

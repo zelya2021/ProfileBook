@@ -29,15 +29,9 @@ namespace ProfileBook
         {
             InitializeComponent();
 
-            if(AuthorizationService.IsAuthorized)
+            if (AuthorizationService.IsAuthorized)
                 await NavigationService.NavigateAsync("NavigationPage/MainList");
             else await NavigationService.NavigateAsync("NavigationPage/SignIn");
-
-            //if (CrossSettings.Current.GetValueOrDefault("Id", -1) != -1)
-            //    await NavigationService.NavigateAsync("NavigationPage/SignIn");
-            //else await NavigationService.NavigateAsync("NavigationPage/MainListView");
-
-            //await NavigationService.NavigateAsync("NavigationPage/MainListView");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -57,6 +51,7 @@ namespace ProfileBook
             containerRegistry.RegisterForNavigation<SignIn, SignInViewModel>();
             containerRegistry.RegisterForNavigation<MainList, MainListViewModel>();
             containerRegistry.RegisterForNavigation<SignUp, SignUpViewModel>();
+            containerRegistry.RegisterForNavigation<AddEditProfile, AddEditProfileViewModel>();
         }
     }
 }
