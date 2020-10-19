@@ -10,24 +10,32 @@ using ProfileBook.Services.Settings;
 using Plugin.Settings;
 using Plugin.Settings.Abstractions;
 using ProfileBook.Services.Authentication;
+using Prism.DryIoc;
 
 namespace ProfileBook
 {
-    public partial class App
+    public partial class App : PrismApplication
     {
 
         public App(IPlatformInitializer initializer)
             : base(initializer)
         {
         }
+        private IAuthorizationService _authorizationService;
+        private IAuthorizationService AuthorizationService =>
+            _authorizationService ??= Container.Resolve<IAuthorizationService>();
 
         protected override async void OnInitialized()
         {
             InitializeComponent();
 
-            if (CrossSettings.Current.GetValueOrDefault("Id", -1) != -1)
-                await NavigationService.NavigateAsync("NavigationPage/SignIn");
-            else await NavigationService.NavigateAsync("NavigationPage/MainListView");
+            if(AuthorizationService.IsAuthorized)
+                await NavigationService.NavigateAsync("NavigationPage/MainList");
+            else await NavigationService.NavigateAsync("NavigationPage/SignIn");
+
+            //if (CrossSettings.Current.GetValueOrDefault("Id", -1) != -1)
+            //    await NavigationService.NavigateAsync("NavigationPage/SignIn");
+            //else await NavigationService.NavigateAsync("NavigationPage/MainListView");
 
             //await NavigationService.NavigateAsync("NavigationPage/MainListView");
         }

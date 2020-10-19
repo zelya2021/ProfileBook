@@ -2,6 +2,7 @@
 using Prism.Navigation;
 using ProfileBook.Models;
 using ProfileBook.Services.Repository;
+using ProfileBook.Services.Settings;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -19,11 +20,14 @@ namespace ProfileBook.ViewModels
         }
         private readonly INavigationService _navigationService;
         private readonly IRepositoryForProfile _repositoryForProfile;
-        public MainListViewModel(INavigationService navigationService, IRepositoryForProfile repositoryForProfile)
+        private readonly ISettingsManager _settingsManager;
+        public MainListViewModel(INavigationService navigationService, IRepositoryForProfile repositoryForProfile,
+            ISettingsManager settingsManager)
         {
             Title = "MainList";
             _navigationService = navigationService;
             _repositoryForProfile = repositoryForProfile;
+            _settingsManager = settingsManager;
             ProfileData = new ObservableCollection<ProfileModel>(_repositoryForProfile.GetItems());
         }
         public ICommand NavigateToAddEditProfile
@@ -33,6 +37,17 @@ namespace ProfileBook.ViewModels
                 return new Command(async () =>
                 {
                     await _navigationService.NavigateAsync("AddEditProfile");
+                });
+            }
+        }
+        public ICommand LogOutOfAccount
+        {
+            get
+            {
+                return new Command(async () =>
+                {
+                    _settingsManager.ClearData();
+                    await _navigationService.NavigateAsync("MainList");
                 });
             }
         }

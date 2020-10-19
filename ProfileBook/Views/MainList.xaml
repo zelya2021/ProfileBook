@@ -7,7 +7,7 @@
              Title="{Binding Title}">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem IconImageSource="ic_exit_to_app.png" Priority="0"/>
+        <ToolbarItem IconImageSource="ic_exit_to_app.png" Priority="0" Command="{Binding LogOutOfAccount}"/>
 
         <ToolbarItem IconImageSource="ic_settings.png" Priority="0"/>
     </ContentPage.ToolbarItems>

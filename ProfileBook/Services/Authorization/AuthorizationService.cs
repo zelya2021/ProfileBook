@@ -17,15 +17,15 @@ namespace ProfileBook.Services.Authorization
             _settingsManager = settingsManager;
             _repositoryForUser = repositoryForUser;
         }
-        public bool CurrenrUserId(string login, string password)
+
+        public bool IsAuthorized
         {
-            var user = _repositoryForUser.GetItems().FirstOrDefault(u => u.NickName == login && u.Password == password);
-            if (user == null) return false;
-            else
-            {
-                _settingsManager.Id = user.Id;
-                return true;
-            }
+            get => _settingsManager.Id >= 0;
+        }
+
+        public int GetCurrentUserId()
+        {
+           return _settingsManager.Id;
         }
     }
 }

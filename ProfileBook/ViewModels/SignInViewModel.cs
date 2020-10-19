@@ -3,6 +3,7 @@ using Plugin.Settings.Abstractions;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
+using ProfileBook.Services.Authentication;
 using ProfileBook.Services.Authorization;
 using ProfileBook.Services.Settings;
 using System.Windows.Input;
@@ -14,15 +15,15 @@ namespace ProfileBook.ViewModels
     {
         private string _title, _loginEntry, _passwordEntry;
         private readonly INavigationService _navigationService;
-        private readonly IAuthorizationService _authorizationService;
         private readonly IPageDialogService _dialogService;
+        private readonly IAuthentication _authentication;
 
-        public SignInViewModel(INavigationService navigationService, IPageDialogService dialogService, 
-            IAuthorizationService authorizationService)
+        public SignInViewModel(INavigationService navigationService, IPageDialogService dialogService,
+            IAuthentication authentication)
         {
             Title = "SignIn";
             _navigationService = navigationService;
-            _authorizationService = authorizationService;
+            _authentication = authentication;
             _dialogService = dialogService;
         }
         public string Title
@@ -46,7 +47,7 @@ namespace ProfileBook.ViewModels
             {
                 return new Command(async () =>
                 {
-                    if (_authorizationService.CurrenrUserId(LoginEntry, PasswordEntry))
+                    if (_authentication.IsUserSignIn(LoginEntry, PasswordEntry))
                         await _navigationService.NavigateAsync("MainList");
                     else
                     {

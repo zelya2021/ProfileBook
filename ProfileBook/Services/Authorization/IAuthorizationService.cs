@@ -6,6 +6,7 @@ namespace ProfileBook.Services.Authorization
 {
     public interface IAuthorizationService
     {
-        bool CurrenrUserId(string login, string password);
+        bool IsAuthorized { get; }
+        int GetCurrentUserId();
     }
 }
