@@ -28,6 +28,7 @@ namespace ProfileBook.ViewModels
             _dialogService = dialogService;
             _settingsManager = settingsManager;
         }
+        public DateTime DateLabel { get; set; }
         public string Title
         {
             get { return _title; }
@@ -68,15 +69,18 @@ namespace ProfileBook.ViewModels
                         await _dialogService.DisplayAlertAsync("Внимание", "Поля не должны быть пустыми!", "OK");
                     else
                     {
+                        DateLabel = new DateTime();
+                        DateLabel = DateTime.Now;
                         _repositoryForProfile.SaveItem(new ProfileModel
                         {
                             Name = Name,
                             Description = Description,
                             Image = "ic_user.png",
-                            Date = DateTime.Today,
-                            UserId = _settingsManager.Id
-                        });
-                        await _navigationService.NavigateAsync("MainListView");
+                            Date = DateLabel,
+                            UserId = _settingsManager.Id,
+                            NickName = NickName
+                        }); ;
+                        await _navigationService.NavigateAsync("MainList");
                     }
                 });
             }

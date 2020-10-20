@@ -14,10 +14,51 @@
     </ContentPage.ToolbarItems>
 
     <ContentPage.Content>
+
+        <!--<Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            
+            <ScrollView Grid.Row="0">
+                <StackLayout>
+                    <ListView ItemsSource="{Binding ProfileData}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="300"/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image Source="{Binding Image}" Grid.Column="0"/>
+                                        <Label Text="{Binding Name}" Grid.Column="1" VerticalTextAlignment="Start"/>
+                                        <Label Text="{Binding NickName}" Grid.Column="1"/>
+                                        <Label Text="{Binding Date}" Grid.Column="1" VerticalTextAlignment="End"/>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <ImageButton Grid.Row="0" Source="ic_add2x.png"
+                         WidthRequest="100" HorizontalOptions="End"
+                         VerticalOptions="End" BorderColor="Black"
+                         BackgroundColor="Blue"
+                         BorderWidth="8" CornerRadius="200"
+                         Margin="0,0,10,50" Padding="25"
+                         Scale="0.8" Command="{Binding NavigateToAddEditProfile}"/>
+                </StackLayout>
+            </ScrollView>
+        </Grid>-->
+
+
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
+
 
             <ScrollView Grid.Row="0">
                 <StackLayout>
@@ -27,17 +68,20 @@
                                 <ViewCell>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width=""/>
-                                            <ColumnDefinition Width="7"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="300"/>
+                                            <!--<ColumnDefinition/>-->
                                         </Grid.ColumnDefinitions>
                                         <Image Source="{Binding Image}" Grid.Column="0"/>
-                                        <Label Text="{Binding Name}"
-                                           FontSize="Medium" 
-                                           FontAttributes="Bold"
-                                           Grid.Column="1"
-                                           VerticalTextAlignment="Start"/>
-                                        <Label Text="{Binding Description}" Grid.Column="1" VerticalTextAlignment="End"/>
-                                        <Label Text="{Binding Date}" Grid.Column="1" VerticalTextAlignment="End"/>
+                                        <StackLayout Grid.Column="1" HeightRequest="200">
+                                            <Label Text="{Binding Name}"/>
+                                            <Label Text="{Binding Date}"/>
+                                            <Label Text="{Binding NickName}"/>
+                                            
+                                        </StackLayout>
+                                        <!--<Label Text="{Binding Name}" Grid.Column="1" VerticalTextAlignment="Start"/>
+                                        <Label Text="{Binding NickName}" Grid.Column="1"/>
+                                        <Label Text="{Binding Date}" Grid.Column="1" VerticalTextAlignment="End"/>-->
                                     </Grid>
                                 </ViewCell>
                             </DataTemplate>
@@ -54,6 +98,8 @@
                          Margin="0,0,10,50" Padding="25"
                          Scale="0.8" Command="{Binding NavigateToAddEditProfile}"/>
         </Grid>
+
+
     </ContentPage.Content>
 
 
