@@ -5,6 +5,7 @@ using ProfileBook.Services.Repository;
 using ProfileBook.Services.Settings;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -30,7 +31,7 @@ namespace ProfileBook.ViewModels
             _navigationService = navigationService;
             _repositoryForProfile = repositoryForProfile;
             _settingsManager = settingsManager;
-             ProfileData = new ObservableCollection<ProfileModel>(_repositoryForProfile.GetItems());
+             ProfileData = new ObservableCollection<ProfileModel>(_repositoryForProfile.GetItems().Where(u => u.UserId == _settingsManager.Id));
         }
         public ICommand NavigateToAddEditProfile
         {
@@ -59,7 +60,7 @@ namespace ProfileBook.ViewModels
             if (profile == null) return;
 
             _repositoryForProfile.DeleteItem(profile.Id);
-            ProfileData = new ObservableCollection<ProfileModel>(_repositoryForProfile.GetItems());
+            ProfileData = new ObservableCollection<ProfileModel>(_repositoryForProfile.GetItems().Where(u => u.UserId == _settingsManager.Id));
         }
     }
 }
