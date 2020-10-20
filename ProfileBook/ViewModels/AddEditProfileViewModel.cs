@@ -19,6 +19,8 @@ namespace ProfileBook.ViewModels
         private readonly IRepositoryForProfile _repositoryForProfile;
         private readonly IPageDialogService _dialogService;
         private readonly ISettingsManager _settingsManager;
+        public ICommand MoveToBottomCommand { protected set; get; }
+        public ICommand RemoveCommand { protected set; get; }
         public AddEditProfileViewModel(INavigationService navigationService, IRepositoryForProfile repositoryForProfile,
              IPageDialogService dialogService, ISettingsManager settingsManager)
         {
@@ -85,5 +87,6 @@ namespace ProfileBook.ViewModels
                 });
             }
         }
+       
     }
 }

@@ -5,7 +5,8 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="ProfileBook.Views.MainList"
              NavigationPage.HasBackButton="False"
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+              x:Name="contentPage">
 
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="ic_exit_to_app.png" Priority="0" Command="{Binding LogOutOfAccount}"/>
@@ -66,6 +67,12 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
+                                    <ViewCell.ContextActions>
+                                        <MenuItem Text="Edit" />
+                                        <MenuItem Text="Delete"
+                                                  Command="{Binding BindingContext.RemoveCommand, Source={x:Reference contentPage}}"
+                                                  CommandParameter="{Binding .}"/>
+                                    </ViewCell.ContextActions>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>

@@ -13,12 +13,6 @@ namespace ProfileBook.ViewModels
     public class MainListViewModel : BindableBase
     {
         private string _title;
-        //private ObservableCollection<ProfileModel> _profileData;
-        //public ObservableCollection<ProfileModel> ProfileData
-        //{
-        //    get { return _profileData; }
-        //    set { SetProperty(ref _profileData, value); }
-        //}
         public ObservableCollection<ProfileModel> ProfileData { get; set; }
         public string Title
         {
@@ -28,6 +22,7 @@ namespace ProfileBook.ViewModels
         private readonly INavigationService _navigationService;
         private readonly IRepositoryForProfile _repositoryForProfile;
         private readonly ISettingsManager _settingsManager;
+        public ICommand RemoveCommand => new Command<ProfileModel>(Remove);
         public MainListViewModel(INavigationService navigationService, IRepositoryForProfile repositoryForProfile,
             ISettingsManager settingsManager)
         {
@@ -36,8 +31,6 @@ namespace ProfileBook.ViewModels
             _repositoryForProfile = repositoryForProfile;
             _settingsManager = settingsManager;
              ProfileData = new ObservableCollection<ProfileModel>(_repositoryForProfile.GetItems());
-            //ProfileData = new ObservableCollection<ProfileModel>();
-            //ProfileData.Add(new ProfileModel { Name = "Vasya", NickName = "vasya022", Image = "ic_user.png", Description = "some description", Date = DateTime.Today });
         }
         public ICommand NavigateToAddEditProfile
         {
@@ -59,6 +52,14 @@ namespace ProfileBook.ViewModels
                     await _navigationService.NavigateAsync("SignIn");
                 });
             }
+        }
+        private void Remove(object profileObj)
+        {
+            ProfileModel profile = profileObj as ProfileModel;
+            if (profile == null) return;
+
+            _repositoryForProfile.DeleteItem(profile.Id);
+            ProfileData = new ObservableCollection<ProfileModel>(_repositoryForProfile.GetItems());
         }
     }
 }

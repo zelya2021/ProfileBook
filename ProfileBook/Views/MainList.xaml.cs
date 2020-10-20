@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using ProfileBook.ViewModels;
+using Xamarin.Forms;
 
 namespace ProfileBook.Views
 {
@@ -6,7 +7,7 @@ namespace ProfileBook.Views
     {
         public MainList()
         {
-            InitializeComponent();
+            InitializeComponent(); 
         }
     }
 }
