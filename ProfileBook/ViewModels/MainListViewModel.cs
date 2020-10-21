@@ -1,9 +1,10 @@
-﻿using Prism.Mvvm;
+﻿
+using Acr.UserDialogs;
+using Prism.Mvvm;
 using Prism.Navigation;
 using ProfileBook.Models;
 using ProfileBook.Services.Repository;
 using ProfileBook.Services.Settings;
-using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -54,13 +55,23 @@ namespace ProfileBook.ViewModels
                 });
             }
         }
-        private void Remove(object profileObj)
+        private async void Remove(object profileObj)
         {
             ProfileModel profile = profileObj as ProfileModel;
             if (profile == null) return;
-
-            _repositoryForProfile.DeleteItem(profile.Id);
-            ProfileData = new ObservableCollection<ProfileModel>(_repositoryForProfile.GetItems().Where(u => u.UserId == _settingsManager.Id));
+            // var result = MessageBox.Show("Question", "Are you sure?", MessageBoxButtons.YesNo);
+            var result = await UserDialogs.Instance.ConfirmAsync(new ConfirmConfig
+            {
+                Message = "Действительно хотите удалить?",
+                OkText = "Да",
+                CancelText = "Нет"
+            });
+            if (result)
+            {
+                _repositoryForProfile.DeleteItem(profile.Id);
+                ProfileData = new ObservableCollection<ProfileModel>(_repositoryForProfile.GetItems().Where(u => u.UserId == _settingsManager.Id));
+            }
+            // UserDialogs.Instance.ShowLoading("Waiting..");
         }
     }
 }
