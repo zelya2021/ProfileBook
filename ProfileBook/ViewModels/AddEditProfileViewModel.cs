@@ -1,4 +1,7 @@
 ﻿
+using Acr.UserDialogs;
+using Plugin.Media;
+using Plugin.Media.Abstractions;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
@@ -19,8 +22,6 @@ namespace ProfileBook.ViewModels
         private readonly IRepositoryForProfile _repositoryForProfile;
         private readonly IPageDialogService _dialogService;
         private readonly ISettingsManager _settingsManager;
-        public ICommand MoveToBottomCommand { protected set; get; }
-        public ICommand RemoveCommand { protected set; get; }
         public AddEditProfileViewModel(INavigationService navigationService, IRepositoryForProfile repositoryForProfile,
              IPageDialogService dialogService, ISettingsManager settingsManager)
         {
@@ -53,15 +54,16 @@ namespace ProfileBook.ViewModels
         }
         public string Image
         {
-            get { return _image; }
-            set
+            get 
             {
                 if (_image == null)
-                    SetProperty(ref _image, "ic_user.png");
-                else SetProperty(ref _image, value);
+                    return "ic_user.png";
+                else
+                    return _image; 
             }
+            set { SetProperty(ref _image, value); }
         }
-        public ICommand ClickOnSave
+        public ICommand ClickOnSaveCommand
         {
             get
             {
@@ -77,7 +79,7 @@ namespace ProfileBook.ViewModels
                         {
                             Name = Name,
                             Description = Description,
-                            Image = "ic_user.png",
+                            Image = Image,
                             Date = DateLabel,
                             UserId = _settingsManager.Id,
                             NickName = NickName
@@ -86,7 +88,52 @@ namespace ProfileBook.ViewModels
                     }
                 });
             }
+
         }
-       
+        public ICommand ClickImageCommand
+        {
+            get
+            {
+                return new Command(() =>
+                {
+                    //var cfg = new ActionSheetConfig()
+                    //     .SetTitle("**** Выбрать картинку из ***")
+                    //     .Add("Камеры", TakePhotoWithCamera, "camera.png")
+                    //     .Add("Галереи", FromGallery, "gallery.png");
+
+                    UserDialogs.Instance.ActionSheet(new ActionSheetConfig()
+                           .SetTitle("Choose Type")
+                           .Add("Default", TakePhotoWithCamera, "camera.png")
+                           .Add("E-Mail", FromGallery, "gallery.png")
+                       );
+                });
+            }
+
+        }
+        private async void TakePhotoWithCamera()
+        {
+            if (CrossMedia.Current.IsCameraAvailable && CrossMedia.Current.IsTakePhotoSupported)
+            {
+                MediaFile file = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
+                {
+                    SaveToAlbum = true,
+                    Directory = "Sample",
+                    Name = $"{DateTime.Now.ToString("dd.MM.yyyy_hh.mm.ss")}.jpg"
+                });
+
+                if (file == null)
+                    return;
+
+                Image = file.Path;
+            }
+        }
+        private async void FromGallery()
+        {
+            if (CrossMedia.Current.IsPickPhotoSupported)
+            {
+                MediaFile photo = await CrossMedia.Current.PickPhotoAsync();
+                Image = photo.Path;
+            }
+        }
     }
 }
