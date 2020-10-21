@@ -18,6 +18,7 @@ namespace ProfileBook.ViewModels
     public class AddEditProfileViewModel : BindableBase, INavigationAware
     {
         private string _title, _name, _nickName, _description, _image;
+        bool IsProfileToUpdate = false;
         private readonly INavigationService _navigationService;
         private readonly IRepositoryForProfile _repositoryForProfile;
         private readonly IPageDialogService _dialogService;
@@ -31,8 +32,7 @@ namespace ProfileBook.ViewModels
             _dialogService = dialogService;
             _settingsManager = settingsManager;
         }
-        public DateTime DateLabel { get; set; }
-        public int ProfileID { get; set; }
+        private ProfileModel Profile;
         public string Title
         {
             get { return _title; }
@@ -70,20 +70,27 @@ namespace ProfileBook.ViewModels
             {
                 return new Command(async () =>
                 {
-                        //added profile
-                        if (String.IsNullOrEmpty(NickName) || String.IsNullOrEmpty(Name))
-                            await _dialogService.DisplayAlertAsync("Внимание", "Поля не должны быть пустыми!", "OK");
+                    if (String.IsNullOrEmpty(NickName) || String.IsNullOrEmpty(Name))
+                        await _dialogService.DisplayAlertAsync("Внимание", "Поля не должны быть пустыми!", "OK");
+                    if (IsProfileToUpdate)
+                    {
+                        Profile.Image = Image;
+                        Profile.Name = Name;
+                        Profile.Description = Description;
+                        Profile.NickName = NickName;
+                        _repositoryForProfile.SaveItem(Profile);
+                        IsProfileToUpdate = false;
+                        await _navigationService.NavigateAsync("MainList");
+                    }
                         else
                         {
-                            DateLabel = new DateTime();
-                            DateLabel = DateTime.Now;
+                         //added profile
                             _repositoryForProfile.SaveItem(new ProfileModel
                             {
-                                Id=ProfileID,
                                 Name = Name,
                                 Description = Description,
                                 Image = Image,
-                                Date = DateLabel,
+                                Date = DateTime.Now,
                                 UserId = _settingsManager.Id,
                                 NickName = NickName
                             });
@@ -143,11 +150,12 @@ namespace ProfileBook.ViewModels
 
         public void OnNavigatedTo(INavigationParameters parameters)
         {
-            var profile = parameters.GetValue<ProfileModel>("profileData");
-            Image = profile.Image;
-            Name = profile.Name;
-            NickName = profile.NickName;
-            Description = profile.Description;
+            Profile = parameters.GetValue<ProfileModel>("profileData");
+            Image = Profile.Image;
+            Name = Profile.Name;
+            NickName = Profile.NickName;
+            Description = Profile.Description;
+            IsProfileToUpdate = true;
         }
     }
 }

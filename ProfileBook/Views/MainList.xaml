@@ -21,45 +21,12 @@
             </Grid.RowDefinitions>
 
             <ScrollView Grid.Row="0">
-                <!--<ListView ItemsSource="{Binding ProfileData}">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <ViewCell>
-                                    <ViewCell.ContextActions>
-                                        <MenuItem Text="Edit" Command="{Binding BindingContext.EditCommand, Source={x:Reference contentPage}}"
-                                                  CommandParameter="{Binding .}"/>
-                                        <MenuItem Text="Delete"
-                                                  Command="{Binding BindingContext.RemoveCommand, Source={x:Reference contentPage}}"
-                                                  CommandParameter="{Binding .}"/>
-                                    </ViewCell.ContextActions>
-                                <ViewCell.View>
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Image Source="{Binding Image}" Grid.Column="0" Grid.RowSpan="2" HeightRequest="150" WidthRequest="150"/>
-
-                                        <Label Text="{Binding Name}" Grid.Column="1" Grid.Row="0"/>
-                                        <Label Text="{Binding Date}" Grid.Column="1" Grid.Row="1"/>
-                                        <Label Text="{Binding NickName}" Grid.Column="1" Grid.Row="2"/>
-                                    </Grid>
-
-                                </ViewCell.View>
-                            </ViewCell>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>-->
-
+                
                 <ListView ItemsSource="{Binding ProfileData}" RowHeight="100" Margin="8">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell Height="100">
+                                
                                 <ViewCell.ContextActions>
                                     <MenuItem Text="Edit" Command="{Binding BindingContext.EditCommand, Source={x:Reference contentPage}}"
                                                   CommandParameter="{Binding .}"/>
@@ -67,6 +34,7 @@
                                                   Command="{Binding BindingContext.RemoveCommand, Source={x:Reference contentPage}}"
                                                   CommandParameter="{Binding .}"/>
                                 </ViewCell.ContextActions>
+                                
                                 <StackLayout Orientation="Horizontal" >
                                     <Image Source="{Binding Image}" Margin="8"></Image>
                                     <StackLayout Margin="15,0,0,10" VerticalOptions="Center">
@@ -75,6 +43,7 @@
                                         <Label Text="{Binding Date}" />
                                     </StackLayout>
                                 </StackLayout>
+                                
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
