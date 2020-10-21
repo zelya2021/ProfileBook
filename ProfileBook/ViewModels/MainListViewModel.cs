@@ -1,5 +1,4 @@
-﻿
-using Acr.UserDialogs;
+﻿using Acr.UserDialogs;
 using Prism.Mvvm;
 using Prism.Navigation;
 using ProfileBook.Models;
@@ -30,6 +29,7 @@ namespace ProfileBook.ViewModels
         private readonly IRepositoryForProfile _repositoryForProfile;
         private readonly ISettingsManager _settingsManager;
         public ICommand RemoveCommand => new Command<ProfileModel>(Remove);
+        public ICommand EditCommand => new Command<ProfileModel>(Edit);
         public MainListViewModel(INavigationService navigationService, IRepositoryForProfile repositoryForProfile,
             ISettingsManager settingsManager)
         {
@@ -75,6 +75,16 @@ namespace ProfileBook.ViewModels
                 _repositoryForProfile.DeleteItem(profile.Id);
                 ProfileData = new ObservableCollection<ProfileModel>(_repositoryForProfile.GetItems().Where(u => u.UserId == _settingsManager.Id));
             }
+        }
+        private async void Edit(object profileObj)
+        {
+            ProfileModel profile = profileObj as ProfileModel;
+            if (profile == null) return;
+
+            var param = new NavigationParameters();
+            param.Add("profileData", profile);
+
+            await _navigationService.NavigateAsync("AddEditProfile", param);
         }
     }
 }

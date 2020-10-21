@@ -9,13 +9,13 @@ using ProfileBook.Models;
 using ProfileBook.Services.Repository;
 using ProfileBook.Services.Settings;
 using System;
-using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace ProfileBook.ViewModels
 {
-    public class AddEditProfileViewModel : BindableBase
+    public class AddEditProfileViewModel : BindableBase, INavigationAware
     {
         private string _title, _name, _nickName, _description, _image;
         private readonly INavigationService _navigationService;
@@ -32,6 +32,7 @@ namespace ProfileBook.ViewModels
             _settingsManager = settingsManager;
         }
         public DateTime DateLabel { get; set; }
+        public int ProfileID { get; set; }
         public string Title
         {
             get { return _title; }
@@ -69,23 +70,26 @@ namespace ProfileBook.ViewModels
             {
                 return new Command(async () =>
                 {
-                    if (String.IsNullOrEmpty(NickName) || String.IsNullOrEmpty(Name))
-                        await _dialogService.DisplayAlertAsync("Внимание", "Поля не должны быть пустыми!", "OK");
-                    else
-                    {
-                        DateLabel = new DateTime();
-                        DateLabel = DateTime.Now;
-                        _repositoryForProfile.SaveItem(new ProfileModel
+                        //added profile
+                        if (String.IsNullOrEmpty(NickName) || String.IsNullOrEmpty(Name))
+                            await _dialogService.DisplayAlertAsync("Внимание", "Поля не должны быть пустыми!", "OK");
+                        else
                         {
-                            Name = Name,
-                            Description = Description,
-                            Image = Image,
-                            Date = DateLabel,
-                            UserId = _settingsManager.Id,
-                            NickName = NickName
-                        }); ;
-                        await _navigationService.NavigateAsync("MainList");
-                    }
+                            DateLabel = new DateTime();
+                            DateLabel = DateTime.Now;
+                            _repositoryForProfile.SaveItem(new ProfileModel
+                            {
+                                Id=ProfileID,
+                                Name = Name,
+                                Description = Description,
+                                Image = Image,
+                                Date = DateLabel,
+                                UserId = _settingsManager.Id,
+                                NickName = NickName
+                            }); ;
+                            await _navigationService.NavigateAsync("MainList");
+                        }
+                    
                 });
             }
 
@@ -129,6 +133,20 @@ namespace ProfileBook.ViewModels
                 MediaFile photo = await CrossMedia.Current.PickPhotoAsync();
                 Image = photo.Path;
             }
+        }
+
+        public void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnNavigatedTo(INavigationParameters parameters)
+        {
+            var profile = parameters.GetValue<ProfileModel>("profileData");
+            Image = profile.Image;
+            Name = profile.Name;
+            NickName = profile.NickName;
+            Description = profile.Description;
         }
     }
 }

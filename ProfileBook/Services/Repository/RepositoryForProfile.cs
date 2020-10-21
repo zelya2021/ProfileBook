@@ -11,8 +11,6 @@ namespace ProfileBook.Services.Repository
         SQLiteConnection database;
         public RepositoryForProfile()
         {
-            //database = new SQLiteConnection(databasePath);
-            //database.CreateTable<ProfileModel>();
             string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             database = new SQLiteConnection(Path.Combine(path, "users_db.db"));
             database.CreateTable<ProfileModel>();
