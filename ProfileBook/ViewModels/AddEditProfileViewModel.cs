@@ -96,15 +96,10 @@ namespace ProfileBook.ViewModels
             {
                 return new Command(() =>
                 {
-                    //var cfg = new ActionSheetConfig()
-                    //     .SetTitle("**** Выбрать картинку из ***")
-                    //     .Add("Камеры", TakePhotoWithCamera, "camera.png")
-                    //     .Add("Галереи", FromGallery, "gallery.png");
-
                     UserDialogs.Instance.ActionSheet(new ActionSheetConfig()
-                           .SetTitle("Choose Type")
-                           .Add("Default", TakePhotoWithCamera, "camera.png")
-                           .Add("E-Mail", FromGallery, "gallery.png")
+                           .SetTitle("Выбрать с помощью")
+                           .Add("Камеры", TakePhotoWithCamera, "camera.png")
+                           .Add("Галереи", FromGallery, "gallery.png")
                        );
                 });
             }
