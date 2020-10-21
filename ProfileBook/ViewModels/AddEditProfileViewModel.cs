@@ -86,7 +86,8 @@ namespace ProfileBook.ViewModels
                                 Date = DateLabel,
                                 UserId = _settingsManager.Id,
                                 NickName = NickName
-                            }); ;
+                            });
+
                             await _navigationService.NavigateAsync("MainList");
                         }
                     
