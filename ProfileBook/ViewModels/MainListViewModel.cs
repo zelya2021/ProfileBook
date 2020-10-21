@@ -15,7 +15,12 @@ namespace ProfileBook.ViewModels
     public class MainListViewModel : BindableBase
     {
         private string _title;
-        public ObservableCollection<ProfileModel> ProfileData { get; set; }
+        private ObservableCollection<ProfileModel> _profileData;
+        public ObservableCollection<ProfileModel> ProfileData 
+        {
+            get { return _profileData; }
+            set { SetProperty(ref _profileData, value); }
+        }
         public string Title
         {
             get { return _title; }
@@ -59,7 +64,6 @@ namespace ProfileBook.ViewModels
         {
             ProfileModel profile = profileObj as ProfileModel;
             if (profile == null) return;
-            // var result = MessageBox.Show("Question", "Are you sure?", MessageBoxButtons.YesNo);
             var result = await UserDialogs.Instance.ConfirmAsync(new ConfirmConfig
             {
                 Message = "Действительно хотите удалить?",
@@ -71,7 +75,6 @@ namespace ProfileBook.ViewModels
                 _repositoryForProfile.DeleteItem(profile.Id);
                 ProfileData = new ObservableCollection<ProfileModel>(_repositoryForProfile.GetItems().Where(u => u.UserId == _settingsManager.Id));
             }
-            // UserDialogs.Instance.ShowLoading("Waiting..");
         }
     }
 }
