@@ -71,7 +71,7 @@ namespace ProfileBook.ViewModels
                 Regex startsWithLetter = new Regex(@"^([a-zA-Z][a-zA-Z0-9' ]{0,49})$");
                 MatchCollection matchesForLogin = startsWithLetter.Matches(LoginEntry);
 
-                Regex containsLetterNumber = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,16}$");
+                Regex containsLetterNumber = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]$");
                 MatchCollection matchesForPassword = containsLetterNumber.Matches(PasswordEntry);
 
                 if (LoginEntry.Length < 4 || LoginEntry.Length > 16)
@@ -84,16 +84,22 @@ namespace ProfileBook.ViewModels
                 }
                 else if (matchesForLogin.Count <= 0)
                 {
-                    await _dialogService.DisplayAlertAsync("Warning!", "slkkd", "OK");
+                    await _dialogService.DisplayAlertAsync("Warning!", "Login should not start with numbers!", "OK");
                     LoginEntry = string.Empty;
+                    PasswordEntry = string.Empty;
+                    ConfirmPasswordEntry = string.Empty;
+                    break;
+                }
+                else if (PasswordEntry.Length < 8 || PasswordEntry.Length > 16)
+                {
+                    await _dialogService.DisplayAlertAsync("Warning!", "Password must be at least 8 and no more than 16 symbols", "OK");
                     PasswordEntry = string.Empty;
                     ConfirmPasswordEntry = string.Empty;
                     break;
                 }
                 else if (matchesForPassword.Count <= 0)
                 {
-                    await _dialogService.DisplayAlertAsync("Warning!", "Password must be at least 8 and no more than 16 symbols and " +
-                        "must contain at least one uppercase letter, one lowercase letter and one number.", "OK");
+                    await _dialogService.DisplayAlertAsync("Warning!", "Password must contain at least one uppercase letter, one lowercase letter and one number.", "OK");
                     PasswordEntry = string.Empty;
                     ConfirmPasswordEntry = string.Empty;
                     break;
