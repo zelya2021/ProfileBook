@@ -18,7 +18,10 @@ namespace ProfileBook.Droid
 
             //чтобы работал UserDialogs!!!
             UserDialogs.Init(this);
+
             base.OnCreate(savedInstanceState);
+            //for modal window
+            Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
 
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App(new AndroidInitializer()));

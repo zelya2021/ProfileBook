@@ -4,6 +4,8 @@ using Prism.Navigation;
 using ProfileBook.Models;
 using ProfileBook.Services.Repository;
 using ProfileBook.Services.Settings;
+using ProfileBook.Views;
+using Rg.Plugins.Popup.Services;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -14,7 +16,8 @@ namespace ProfileBook.ViewModels
     public class MainListViewModel : BindableBase
     {
         private string _title;
-        bool _sProfilesExists;
+        private bool _sProfilesExists;
+        private ProfileModel _selectedProfile;
         private ObservableCollection<ProfileModel> _profileData;
         public ObservableCollection<ProfileModel> ProfileData 
         {
@@ -35,12 +38,23 @@ namespace ProfileBook.ViewModels
             get { return _sProfilesExists; }
             set  { SetProperty(ref _sProfilesExists, value); }
         }
+        public ProfileModel SelectedProfile
+        {
+            get { return _selectedProfile; }
+            set
+            {
+                SetProperty(ref _selectedProfile, value);
+                if(_selectedProfile!=null)
+                ProfileClickCommand.Execute(_selectedProfile);
+            }
+        }
 
         private readonly INavigationService _navigationService;
         private readonly IRepositoryForProfile _repositoryForProfile;
         private readonly ISettingsManager _settingsManager;
         public ICommand RemoveCommand => new Command<ProfileModel>(Remove);
         public ICommand EditCommand => new Command<ProfileModel>(Edit);
+        public ICommand ProfileClickCommand => new Command<ProfileModel>(ProfileClick);
         public MainListViewModel(INavigationService navigationService, IRepositoryForProfile repositoryForProfile,
             ISettingsManager settingsManager)
         {
@@ -96,6 +110,11 @@ namespace ProfileBook.ViewModels
             param.Add("profileData", profile);
 
             await _navigationService.NavigateAsync("AddEditProfile", param);
+        }
+        private void ProfileClick(ProfileModel model)
+        {
+            _settingsManager.ImageProfile = model.Image;
+            PopupNavigation.Instance.PushAsync(new ProfileImage());
         }
     }
 }

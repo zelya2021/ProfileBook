@@ -5,5 +5,6 @@ namespace ProfileBook.Services.Settings
     {
         int Id { get; set; }
         void ClearData();
+        string ImageProfile { get; set; }
     }
 }
