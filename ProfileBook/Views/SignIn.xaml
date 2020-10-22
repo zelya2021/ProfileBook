@@ -9,12 +9,12 @@
 
     <StackLayout>
         <StackLayout Orientation="Vertical" HorizontalOptions="Center" Margin="0, 110, 0, 120" WidthRequest="250">
-            <Entry x:Name="loginEntry" Placeholder="Login" Completed="loginEntry_Completed" Text="{Binding LoginEntry}"/>
-            <Entry x:Name="passwordEntry"  Placeholder = "Password" IsPassword ="True" Completed="passwordEntry_Completed" Text="{Binding PasswordEntry}"/>
+            <Entry x:Name="loginEntry" Placeholder="Login" Text="{Binding LoginEntry}"/>
+            <Entry x:Name="passwordEntry"  Placeholder = "Password" IsPassword ="True" Text="{Binding PasswordEntry}"/>
         </StackLayout>
         <Button x:Name="SignInBtn" Text = "SIGN IN" FontSize="Large" BorderWidth="1" BackgroundColor="#e2831d"
                  HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Margin="0, 40, 0, 0" WidthRequest="250"
-                Command="{Binding NavigateTomainListCommand}"/>
+                Command="{Binding NavigateTomainListCommand}" IsEnabled="{Binding IsSignInEnable}"/>
 
         <Label HorizontalOptions="Center"
                    VerticalOptions="CenterAndExpand" Margin="0, 0, 0, 30">

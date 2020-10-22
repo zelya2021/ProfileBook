@@ -14,17 +14,28 @@ namespace ProfileBook.ViewModels
     public class MainListViewModel : BindableBase
     {
         private string _title;
+        bool _sProfilesExists;
         private ObservableCollection<ProfileModel> _profileData;
         public ObservableCollection<ProfileModel> ProfileData 
         {
-            get { return _profileData; }
-            set { SetProperty(ref _profileData, value); }
+            get {
+                if (_profileData.Count==0)
+                    IsProfilesExists = true;
+                return _profileData; 
+            }
+            set { SetProperty(ref _profileData, value);  }
         }
         public string Title
         {
             get { return _title; }
             set { SetProperty(ref _title, value); }
         }
+        public bool IsProfilesExists
+        {
+            get { return _sProfilesExists; }
+            set  { SetProperty(ref _sProfilesExists, value); }
+        }
+
         private readonly INavigationService _navigationService;
         private readonly IRepositoryForProfile _repositoryForProfile;
         private readonly ISettingsManager _settingsManager;
@@ -66,9 +77,9 @@ namespace ProfileBook.ViewModels
             if (profile == null) return;
             var result = await UserDialogs.Instance.ConfirmAsync(new ConfirmConfig
             {
-                Message = "Действительно хотите удалить?",
-                OkText = "Да",
-                CancelText = "Нет"
+                Message = "Do you really want to delete?",
+                OkText = "Yes",
+                CancelText = "No"
             });
             if (result)
             {

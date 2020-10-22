@@ -71,20 +71,23 @@ namespace ProfileBook.ViewModels
                 return new Command(async () =>
                 {
                     if (String.IsNullOrEmpty(NickName) || String.IsNullOrEmpty(Name))
-                        await _dialogService.DisplayAlertAsync("Внимание", "Поля не должны быть пустыми!", "OK");
-                    if (IsProfileToUpdate)
+                        await _dialogService.DisplayAlertAsync("Warning!", "The fields must not be empty!", "OK");
+                    else
                     {
-                        Profile.Image = Image;
-                        Profile.Name = Name;
-                        Profile.Description = Description;
-                        Profile.NickName = NickName;
-                        _repositoryForProfile.SaveItem(Profile);
-                        IsProfileToUpdate = false;
-                        await _navigationService.NavigateAsync("MainList");
-                    }
+                        if (IsProfileToUpdate)
+                        {
+                            //update profile
+                            Profile.Image = Image;
+                            Profile.Name = Name;
+                            Profile.Description = Description;
+                            Profile.NickName = NickName;
+                            _repositoryForProfile.SaveItem(Profile);
+                            IsProfileToUpdate = false;
+                            await _navigationService.NavigateAsync("MainList");
+                        }
                         else
                         {
-                         //added profile
+                            //add profile
                             _repositoryForProfile.SaveItem(new ProfileModel
                             {
                                 Name = Name,
@@ -97,7 +100,7 @@ namespace ProfileBook.ViewModels
 
                             await _navigationService.NavigateAsync("MainList");
                         }
-                    
+                    }
                 });
             }
 
@@ -109,9 +112,9 @@ namespace ProfileBook.ViewModels
                 return new Command(() =>
                 {
                     UserDialogs.Instance.ActionSheet(new ActionSheetConfig()
-                           .SetTitle("Выбрать с помощью")
-                           .Add("Камеры", TakePhotoWithCamera, "camera.png")
-                           .Add("Галереи", FromGallery, "gallery.png")
+                           .SetTitle("Choose from")
+                           .Add("camera", TakePhotoWithCamera, "camera.png")
+                           .Add("gallery", FromGallery, "gallery.png")
                        );
                 });
             }
