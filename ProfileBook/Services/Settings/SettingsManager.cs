@@ -1,6 +1,4 @@
 ﻿using Plugin.Settings.Abstractions;
-using ProfileBook.Models;
-using System.Collections.ObjectModel;
 
 namespace ProfileBook.Services.Settings
 {
@@ -8,7 +6,6 @@ namespace ProfileBook.Services.Settings
     {
         private readonly ISettings _settings;
         private string _imageProfile;
-        private ObservableCollection<ProfileModel> _profileData;
         public SettingsManager(ISettings settings)
         {
             _settings = settings;
@@ -22,11 +19,6 @@ namespace ProfileBook.Services.Settings
         {
             get => _imageProfile;
             set => _imageProfile = value;
-        }
-        public ObservableCollection<ProfileModel> ProfileData
-        {
-            get => _profileData;
-            set => _profileData = value;
         }
         public void ClearData()
         {

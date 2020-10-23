@@ -130,16 +130,13 @@ namespace ProfileBook.ViewModels
             PopupNavigation.Instance.PushAsync(new ProfileImage());
         }
 
-        public void OnNavigatedFrom(INavigationParameters parameters)
-        {
-          
-        }
+        public void OnNavigatedFrom(INavigationParameters parameters) { }
 
         public void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (parameters.GetValue<ObservableCollection<ProfileModel>>("sortedProfilesByName") != null)
+            if (parameters.GetValue<ObservableCollection<ProfileModel>>("sortedProfile") != null)
             {
-                ProfileData = parameters.GetValue<ObservableCollection<ProfileModel>>("sortedProfilesByName");
+                ProfileData = parameters.GetValue<ObservableCollection<ProfileModel>>("sortedProfile");
             }
            
         }
