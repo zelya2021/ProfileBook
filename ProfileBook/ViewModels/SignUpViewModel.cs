@@ -71,7 +71,7 @@ namespace ProfileBook.ViewModels
                 Regex startsWithLetter = new Regex(@"^([a-zA-Z][a-zA-Z0-9' ]{0,49})$");
                 MatchCollection matchesForLogin = startsWithLetter.Matches(LoginEntry);
 
-                Regex containsLetterNumber = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]$");
+                Regex containsLetterNumber = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,16}$");
                 MatchCollection matchesForPassword = containsLetterNumber.Matches(PasswordEntry);
 
                 if (LoginEntry.Length < 4 || LoginEntry.Length > 16)
