@@ -4,6 +4,7 @@ using Android.Content.PM;
 using Android.OS;
 using Prism;
 using Prism.Ioc;
+using Xamarin.Forms;
 
 namespace ProfileBook.Droid
 {
@@ -15,6 +16,8 @@ namespace ProfileBook.Droid
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
+
+            Forms.SetFlags("RadioButton_Experimental");
 
             //чтобы работал UserDialogs!!!
             UserDialogs.Init(this);

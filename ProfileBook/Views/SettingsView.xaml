@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="ProfileBook.Views.SettingsView"
+             Title="{Binding Title}">
+    <StackLayout>
+        <Label Text="Sort profiles by:" HorizontalOptions="Center" VerticalOptions="Center"/>
+        <RadioButton Text="Name"
+             GroupName="profiles" IsChecked="{Binding IsRbSortedByNameChecked}"/>
+        <RadioButton Text="NickName"
+             GroupName="profiles" IsChecked="{Binding IsRbSortedByNickNameChecked}"/>
+        <RadioButton Text="Date"
+             GroupName="profiles" IsChecked="{Binding IsRbSortedByDateChecked}"/>
+        <Button Text="Apply" Command="{Binding NavigateToMainListCommand}"/>
+    </StackLayout>
+</ContentPage>

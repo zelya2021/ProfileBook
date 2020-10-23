@@ -13,10 +13,11 @@ using Xamarin.Forms;
 
 namespace ProfileBook.ViewModels
 {
-    public class MainListViewModel : BindableBase
+    public class MainListViewModel : BindableBase, INavigationAware
     {
         private string _title;
         private bool _sProfilesExists;
+
         private ProfileModel _selectedProfile;
         private ObservableCollection<ProfileModel> _profileData;
         public ObservableCollection<ProfileModel> ProfileData 
@@ -64,7 +65,7 @@ namespace ProfileBook.ViewModels
             _settingsManager = settingsManager;
              ProfileData = new ObservableCollection<ProfileModel>(_repositoryForProfile.GetItems().Where(u => u.UserId == _settingsManager.Id));
         }
-        public ICommand NavigateToAddEditProfile
+        public ICommand NavigateToAddEditProfileCommand
         {
             get
             {
@@ -74,7 +75,7 @@ namespace ProfileBook.ViewModels
                 });
             }
         }
-        public ICommand LogOutOfAccount
+        public ICommand LogOutOfAccountCommand
         {
             get
             {
@@ -82,6 +83,18 @@ namespace ProfileBook.ViewModels
                 {
                     _settingsManager.ClearData();
                     await _navigationService.NavigateAsync("SignIn");
+                });
+            }
+        }
+        public ICommand NavigateToSettingsCommand
+        {
+            get
+            {
+                return new Command(async () =>
+                {
+                    var param = new NavigationParameters();
+                    param.Add("profileModels", ProfileData);
+                    await _navigationService.NavigateAsync("SettingsView", param);
                 });
             }
         }
@@ -115,6 +128,20 @@ namespace ProfileBook.ViewModels
         {
             _settingsManager.ImageProfile = model.Image;
             PopupNavigation.Instance.PushAsync(new ProfileImage());
+        }
+
+        public void OnNavigatedFrom(INavigationParameters parameters)
+        {
+          
+        }
+
+        public void OnNavigatedTo(INavigationParameters parameters)
+        {
+            if (parameters.GetValue<ObservableCollection<ProfileModel>>("sortedProfilesByName") != null)
+            {
+                ProfileData = parameters.GetValue<ObservableCollection<ProfileModel>>("sortedProfilesByName");
+            }
+           
         }
     }
 }

@@ -53,6 +53,7 @@ namespace ProfileBook
             containerRegistry.RegisterForNavigation<SignUp, SignUpViewModel>();
             containerRegistry.RegisterForNavigation<AddEditProfile, AddEditProfileViewModel>();
             containerRegistry.RegisterForNavigation<ProfileImage, ProfileImageViewModel>();
+            containerRegistry.RegisterForNavigation<SettingsView, SettingsViewViewModel>();
         }
     }
 }

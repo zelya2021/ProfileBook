@@ -67,7 +67,6 @@ namespace ProfileBook.ViewModels
                     else
                     {
                         await _dialogService.DisplayAlertAsync("Error", "User is not found", "OK");
-                        LoginEntry = string.Empty;
                         PasswordEntry = string.Empty;
                     }
                 });
