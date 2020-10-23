@@ -113,8 +113,8 @@ namespace ProfileBook.ViewModels
                 {
                     UserDialogs.Instance.ActionSheet(new ActionSheetConfig()
                            .SetTitle("Choose from")
-                           .Add("camera", TakePhotoWithCamera, "camera.png")
-                           .Add("gallery", FromGallery, "gallery.png")
+                           .Add("camera", TakePhotoWithCamera, "ic_camera_alt.png")
+                           .Add("gallery", FromGallery, "ic_collections.png")
                        );
                 });
             }

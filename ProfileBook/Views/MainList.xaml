@@ -54,8 +54,8 @@
 
             <Label Text="No profiles added" IsVisible="{Binding IsProfilesExists}" HorizontalOptions="Center"
                    VerticalOptions="Center"/>
-            
-            <ImageButton Grid.Row="0" Source="ic_add2x.png"
+
+            <ImageButton Grid.Row="0" Source="ic_add.png"
                          WidthRequest="100" HorizontalOptions="End"
                          VerticalOptions="End" BorderColor="Black"
                          BackgroundColor="Blue"
